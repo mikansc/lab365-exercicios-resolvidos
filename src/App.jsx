@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Button from "./components/Button";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -8,18 +9,22 @@ import User from "./components/User";
 const produtos = ["Arroz", "Feijão", "Macarrão", "Carne", "Frango"];
 
 function App() {
+  const [listaProdutos, setListaProdutos] = useState(produtos);
+  const [produto, setProduto] = useState("");
   return (
     <div>
       <Navbar />
-      <Login />
       <User />
       <TextInput
         label="Nome do Produto"
         id="nome_produto"
-        onChange={(e) => console.log(e.target.value)}
+        onChange={(e) => setProduto(e.target.value)}
       />
-      <Button label="Adicionar" onClick={() => console.log("clicou")} />
-      <ShoppingList items={produtos} />
+      <Button
+        label="Adicionar"
+        onClick={() => setListaProdutos([...listaProdutos, produto])}
+      />
+      <ShoppingList items={listaProdutos} />
     </div>
   );
 }
