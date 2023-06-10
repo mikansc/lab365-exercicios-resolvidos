@@ -6,12 +6,15 @@ import TextInput from "./components/TextInput";
 import User from "./components/User";
 
 import styles from "./App.module.css";
+import ErrorMessage from "./components/ErrorMessage";
 
 const produtos = ["Arroz", "Feijão", "Macarrão", "Carne", "Frango"];
 
 function App() {
   const [listaProdutos, setListaProdutos] = useState(produtos);
   const [produto, setProduto] = useState("");
+  const [mensagemErro, setMensagemErro] = useState("");
+
   return (
     <>
       <Navbar />
@@ -21,14 +24,31 @@ function App() {
 
       <div className={styles.form}>
         <div className={styles.container}>
-          <TextInput
-            label="Nome do Produto"
-            id="nome_produto"
-            onChange={(e) => setProduto(e.target.value)}
-          />
+          <div className={styles.inputGroup}>
+            <TextInput
+              value={produto}
+              label="Nome do Produto"
+              id="nome_produto"
+              onBlur={() => {
+                if (produto === "") {
+                  setMensagemErro("Preencha o nome do produto");
+                } else {
+                  setMensagemErro("");
+                }
+              }}
+              onChange={(e) => setProduto(e.target.value)}
+            />
+            <ErrorMessage message={mensagemErro} />
+          </div>
           <Button
             label="Adicionar"
-            onClick={() => setListaProdutos([...listaProdutos, produto])}
+            onClick={() => {
+              if (produto !== "") {
+                setListaProdutos([...listaProdutos, produto]);
+              } else {
+                setMensagemErro("Preencha o nome do produto");
+              }
+            }}
           />
         </div>
       </div>

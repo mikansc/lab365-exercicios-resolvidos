@@ -1,0 +1,7 @@
+.errorMessage {
+    display: block;
+    width: 100%;  
+    color: #ff0000;
+    font: 300 0.75rem 'Roboto', sans-serif;
+    margin: -0.9rem 0 1rem 0;
+}
