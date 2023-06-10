@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./components/Button";
 import Navbar from "./components/Navbar";
 import ShoppingList from "./components/ShoppingList";
@@ -14,6 +14,13 @@ function App() {
   const [listaProdutos, setListaProdutos] = useState(produtos);
   const [produto, setProduto] = useState("");
   const [mensagemErro, setMensagemErro] = useState("");
+
+  useEffect(() => {
+    const listaStorage = localStorage.getItem("list");
+    if (listaStorage) {
+      setListaProdutos(JSON.parse(listaStorage));
+    }
+  }, []);
 
   return (
     <>
@@ -44,7 +51,10 @@ function App() {
             label="Adicionar"
             onClick={() => {
               if (produto !== "") {
-                setListaProdutos([...listaProdutos, produto]);
+                const listaAtualizada = [...listaProdutos, produto];
+                localStorage.setItem("list", JSON.stringify(listaAtualizada));
+                setListaProdutos(listaAtualizada);
+                setProduto("");
               } else {
                 setMensagemErro("Preencha o nome do produto");
               }
