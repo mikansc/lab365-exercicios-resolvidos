@@ -1,4 +1,3 @@
-import useShoppingList from "../hooks/useShoppingList";
 import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
 import ShoppingList from "./ShoppingList";
@@ -6,6 +5,7 @@ import TextInput from "./TextInput";
 import User from "./User";
 
 import styles from "./Home.module.css";
+import { useShoppingContext } from "../context/shoppingContext";
 
 const Home = () => {
   const {
@@ -15,7 +15,7 @@ const Home = () => {
     mensagemErro,
     produto,
     validate,
-  } = useShoppingList();
+  } = useShoppingContext();
 
   return (
     <>

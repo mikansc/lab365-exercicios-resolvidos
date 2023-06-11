@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
 import styles from "./Navbar.module.css";
+import Display from "./Display";
+
+import { useShoppingContext } from "../context/shoppingContext";
 
 function Navbar() {
+  const { listaProdutos } = useShoppingContext();
+
   return (
     <div className={styles.bar}>
       <div className={styles.container}>
@@ -16,11 +21,12 @@ function Navbar() {
                 <Link to="/quem-somos">Quem somos</Link>
               </li>
               <li>
-                <Link to="#">Contato</Link>
+                <Link to="/contato">Contato</Link>
               </li>
             </ul>
           </nav>
         </div>
+        <Display value={listaProdutos.length} />
       </div>
     </div>
   );
