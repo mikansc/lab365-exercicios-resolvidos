@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Button from "./components/Button";
 import Navbar from "./components/Navbar";
 import ShoppingList from "./components/ShoppingList";
@@ -7,20 +6,17 @@ import User from "./components/User";
 
 import styles from "./App.module.css";
 import ErrorMessage from "./components/ErrorMessage";
-
-const produtos = ["Arroz", "Feijão", "Macarrão", "Carne", "Frango"];
+import useShoppingList from "./hooks/useShoppingList";
 
 function App() {
-  const [listaProdutos, setListaProdutos] = useState(produtos);
-  const [produto, setProduto] = useState("");
-  const [mensagemErro, setMensagemErro] = useState("");
-
-  useEffect(() => {
-    const listaStorage = localStorage.getItem("list");
-    if (listaStorage) {
-      setListaProdutos(JSON.parse(listaStorage));
-    }
-  }, []);
+  const {
+    addProduct,
+    handleProductName,
+    listaProdutos,
+    mensagemErro,
+    produto,
+    validate,
+  } = useShoppingList();
 
   return (
     <>
@@ -36,30 +32,12 @@ function App() {
               value={produto}
               label="Nome do Produto"
               id="nome_produto"
-              onBlur={() => {
-                if (produto === "") {
-                  setMensagemErro("Preencha o nome do produto");
-                } else {
-                  setMensagemErro("");
-                }
-              }}
-              onChange={(e) => setProduto(e.target.value)}
+              onBlur={validate}
+              onChange={handleProductName}
             />
             <ErrorMessage message={mensagemErro} />
           </div>
-          <Button
-            label="Adicionar"
-            onClick={() => {
-              if (produto !== "") {
-                const listaAtualizada = [...listaProdutos, produto];
-                localStorage.setItem("list", JSON.stringify(listaAtualizada));
-                setListaProdutos(listaAtualizada);
-                setProduto("");
-              } else {
-                setMensagemErro("Preencha o nome do produto");
-              }
-            }}
-          />
+          <Button label="Adicionar" onClick={addProduct} />
         </div>
       </div>
       <div className={styles.container}>
